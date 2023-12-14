@@ -1,29 +1,29 @@
-name: Google Artifact Registry Build & Push
-  # You may pin to the exact commit or the version.
-  # uses: piotr-krusinski/action-google-artifact-registry@9cf02c218758b424473a7ede8bc90272037a8530
-  uses: piotr-krusinski/action-google-artifact-registry@v1.0
-  with:
-    # Google project ID of your project where Artifact Registry is created
-    google_project_id: kode-pre-prod
+name: Deploy KODELABS website Frontend to GCP
 
-    # Google Artifact Registry region
-    google_artifact_registry_region: us
+on:
+  push:
+    branches:
+    - 'main'
 
-    # Google Artifact Registry hostname
-    google_artifact_registry_hostname: us.gcr.io
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
 
-    # Google Artifact Registry repository name
-    google_artifact_registry_name: us.gcr.io
+    - name: code checkout
+      uses: actions/checkout@v2
 
-    # Base64 version of Google Cloud Platform service key to access Artifact Registry
-    service_account_key: ewogICJ0eXBlIjogInNlcnZpY2VfYWNjb3VudCIsCiAgInByb2plY3RfaWQiOiAia29kZS1wcmUtcHJvZCIsCiAgInByaXZhdGVfa2V5X2lkIjogImNmMmI3MDZmN2VlNTA1NmMyNTg2NzQzMTE4NmQ0YjllMTRiZDM3YjQiLAogICJwcml2YXRlX2tleSI6ICItLS0tLUJFR0lOIFBSSVZBVEUgS0VZLS0tLS1cbk1JSUV2UUlCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQktjd2dnU2pBZ0VBQW9JQkFRRFJQcTJZc3RjZUt5RGNcbm1JWU9CT2U3Q0xXY0h1aStIUnRtMHlLa0w1L2xXQktZdndhcFI1T3B1aE92MU9lYUdFOWl1TGo0MkNiOEwrOVpcblBiMC9Lc1dDN0NHSDRvWll2YjhLYnl4TUVGbWZ4YUl1OHZWRVNaT053S0xmK29Id1RFemdscy9XQ01XVHFDbFFcblJEcjNWcHBLbkxucjY1QWVJTXp2TS9MRWpHMi9NTzRiTEs1WENwWU1wdUlxek85WjJLNGFSd1RIVWVvQTRITjNcbmF0QU5YUUdFaW5MU0F2U3NMN0ZIQUFTS1FKMjBJZzdOTDFwbk95ZzRGY2gxRUxYQUJDNzlSTFF5RjZGR3hBTWpcblNtK3UvMzdlODdxdDRjQTZPNUFQU3hNNm5jbTE1QlpOVXZxZm4yYXViWlpJdm9sVk1EVGxSMmxteFdPWml4TW9cbktibWJzMUc1QWdNQkFBRUNnZ0VBR3UySUJhaXVTbkdlYndVcDYwL3lTbjJhY1pjQXVNYWlLaDl0eTlkZEtuU2xcbklBY2xZaytWenpmbEpMR3ZoSU13WkRJRmkvQzFRNnNma0VxRHVrZFUxNzV2cWo4YXJ2enNRdmwvcCtKS3htYjJcbnNqZ09IRldqcVpCcTVZd2xnTGt4QTQ0ay9SUnY2TXF4Vm1VUmVaY3BrQVNQWUs4V0F1cVJ0UTdvWlNiMVVLOU5cbnJ1TmZiblRESjRZQ1o3UkRWWDN0OHhZRmI5aXRiWTQ1RUVndmprTU45enpvNVhFR2xGZXRwaEVMc2d5cGZmSE9cbldBMmo5WHF6Sjl2QS8xbEtwMmoyT2c4UmpncEVETUNsa0dDNlBma3pBaTdjQ0g4UjdYUkVFWEttMWMrVVArc3JcblRFZ0l2KzVtdU1TVHZiZ1FHL3IrS2dUaFd0TjRreXQ3NDhTOHo5VkFJUUtCZ1FEenJ1Z0haSk4weEdLRG52dENcbjF3N05DMU83cVJHemhlTW9pMDR6dWNEd1MramxKWHJxNnVQOGZHUGNTbGhqaGwwM0VGWU5SazhUSGprcFVUTlFcbmtXWDRKL0J3cVJiMW5QdlRwZXl0cjhoVGZtUW9SbXhKdGtUYWgxQkxScnBhakhlc1ZuczI5WGp2YnBheERqL0pcbnVhWjRqU1p3QjZyZSt2ckliVXlGZzV0OXhRS0JnUURiMGltZ3dwOWo3ZlgveXJEY1d1MDZOS1pxUkowdFB2WU1cbnZrMFBPeERNblNKOWcrdkhUT25KWVBXVjJrWDQ1cFRRbzZmeVJ3YW5GV2NSUzcyR0wyczdTMnpORUJTVVliTzNcbnZyME1adXRnc2thb0dKRkE5TSsvK3oxZUlIN0gzcGIrT2dFeUYxT2NtL1BsMDVwdm1FbUE4VUtRVzU1RkNrRm1cbjNCeSs2YllYWlFLQmdDVDZZTGxtZUwzYVl6eW43bWI1TFlUTitEbmM4Uk8xK0grWmpCZHJVNnpqU0FjbHhkNUtcbklLaWEwNmlGRzU2V3NDUi85Ujcwa1dGTVQ4NUdSU3d2dERLUkZQcHpua2xOTmlXcTR4eUVOVGorVUFLUWxUUW1cblZaSjN3Q1o4S0NFL2VaV01WZ3hEK2NNVG5BaG9LaVBaYVRxWDZNSk5WNCtZdEYrZnZtSHdVN01sQW9HQkFJU3BcbjBYV3ovMzNQbnlkQXJIeFFZOXM4NnpJM05xU1gydWJWOHF1K2VlVUM4RTNQei92Mzd5QVo1QjBNSGk2WStqYndcbmplc3A4bG5rRU0vZlpnSVZuQ0dzNDN6ZXQ0elZhaUQ2ZkIxLy80M2NDY2hwQzBDb2ZyamVaNnJtOFp5dU9YSTBcbmo0UXJqOHAwVkQzZjl0UmlrL205b081K1hJWk9LaXBwck8rTEhOb0JBb0dBY0hGWHZSc3FZZEZnVW1leXdtNkhcbjcwRDJ0Ly9FMWY3VXR3Q0d5NUc1R1FpS2ZQTmN2TTNwVnV6RWx0bFNkWWltWXhnb25OUlg3Q2hZR0Y4eHZlczBcbk9mR1I3ZlVGbG1XaGFTd083TGl6RU9YWXhmK2NGb2h5clhtWkw1ZkxFMjNFbFIyV3g4Q3dQcVV3a3N1TnlSajdcbjVrTFArSm1RNFZONWg2WWRDK2k4dkY4PVxuLS0tLS1FTkQgUFJJVkFURSBLRVktLS0tLVxuIiwKICAiY2xpZW50X2VtYWlsIjogImdpdGh1Yi1hY3Rpb25zLWtvZGV3ZWJzaXRlQGtvZGUtcHJlLXByb2QuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20iLAogICJjbGllbnRfaWQiOiAiMTE0NDIxOTA4MTk3NTE3MTUzNzIyIiwKICAiYXV0aF91cmkiOiAiaHR0cHM6Ly9hY2NvdW50cy5nb29nbGUuY29tL28vb2F1dGgyL2F1dGgiLAogICJ0b2tlbl91cmkiOiAiaHR0cHM6Ly9vYXV0aDIuZ29vZ2xlYXBpcy5jb20vdG9rZW4iLAogICJhdXRoX3Byb3ZpZGVyX3g1MDlfY2VydF91cmwiOiAiaHR0cHM6Ly93d3cuZ29vZ2xlYXBpcy5jb20vb2F1dGgyL3YxL2NlcnRzIiwKICAiY2xpZW50X3g1MDlfY2VydF91cmwiOiAiaHR0cHM6Ly93d3cuZ29vZ2xlYXBpcy5jb20vcm9ib3QvdjEvbWV0YWRhdGEveDUwOS9naXRodWItYWN0aW9ucy1rb2Rld2Vic2l0ZSU0MGtvZGUtcHJlLXByb2QuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20iLAogICJ1bml2ZXJzZV9kb21haW4iOiAiZ29vZ2xlYXBpcy5jb20iCn0K
+    - name: install the gcloud cli
+      uses: google-github-actions/setup-gcloud@v2
+      with:
+        project_id: ${{ secrets.GOOGLE_PROJECT }}
+        service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+        export_default_credentials: true
 
-    # Path to dockerfile
-    dockerfile: Dockerfile
-
-    # Name of created image
-    image_name: test 
-    # Tag list separated by space, if no tag is specified then it will use latest tag (example: tag_1 tag_2 tag_3)
-    #tag_list: # optional
-    # List of build args that will be used to build docker image
-    #build_args: # optional
+    - name: build and push the docker image
+      env:
+        GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
+      run: |
+        gcloud auth configure-docker us-docker.pkg.dev
+        docker build -t us.gcr.io/$GOOGLE_PROJECT/kode-front-img .
+        docker push us.gcr.io/$GOOGLE_PROJECT/kode-front-img
