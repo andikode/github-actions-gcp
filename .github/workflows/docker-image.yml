@@ -24,6 +24,7 @@ jobs:
       env:
         GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
       run: |
-        gcloud auth configure-docker us-docker.pkg.dev
+        gcloud auth login
+        gcloud auth configure-docker us.gcr.io
         docker build -t us.gcr.io/$GOOGLE_PROJECT/kode-front-img .
         docker push us.gcr.io/$GOOGLE_PROJECT/kode-front-img
